@@ -183,17 +183,6 @@ ul {
     color: var(--white);
 }
 
-.nav-links .hiring-btn {
-    background: var(--primary-color);
-    color: var(--secondary-color);
-    font-weight: 700;
-    border: 2px solid var(--primary-color);
-}
-
-.nav-links .hiring-btn:hover {
-    background: #ffe04d;
-    border-color: #ffe04d;
-}
 
 .hamburger {
     display: none;
