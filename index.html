@@ -29,6 +29,7 @@
             <li><a href="#showcase">Services</a></li>
             <li><a href="#about">About Us</a></li>
             <li><a href="#contact" class="cta-btn">Contact Us</a></li>
+            <li><a href="#contact" class="cta-btn hiring-btn">Hiring O/P</a></li>
         </ul>
         <div class="hamburger">
             <i class="fas fa-bars"></i>
@@ -37,7 +38,7 @@
 
     <header id="home" class="hero">
         <div class="hero-content">
-            <h1>Reliable Cargo Transport<br>Across US & Canada</h1>
+            <h1>Superior Cross-Border <br>Transportation Across Canada & US</h1>
             <p>We deliver excellence, one truckload at a time. Connecting businesses with seamless logistics solutions.
             </p>
             <div class="hero-buttons">
@@ -72,8 +73,8 @@
         <div class="carousel-section__inner">
             <div class="carousel-section__text">
                 <h2 class="section-title carousel-section__title">What We Offer</h2>
-                <p>Comprehensive transport &amp; logistics solutions tailored to your business needs across North
-                    America.</p>
+                <p>Drive your business forward with our comprehensive transport and logistics solutions, customized for
+                    seamless shipping and unmatched reliability across North America.</p>
             </div>
             <div class="carousel">
                 <div class="carousel__item">
@@ -169,7 +170,7 @@
                         <i class="fas fa-phone-alt"></i>
                         <div>
                             <h4>Phone</h4>
-                            <p><a href=tel: +33123456789> +33 123456789 </a></p>
+                            <p><a href=tel: 902-201-1816-800> 902-201-1816-800 </a></p>
                             <!-- Placeholder, user should update -->
                         </div>
                     </div>
@@ -177,7 +178,7 @@
                         <i class="fas fa-envelope"></i>
                         <div>
                             <h4>Email</h4>
-                            <p><a href=mailto: nirmalthomas123@gmail.com> nirmalthomas123@gmail.com </a></p>
+                            <p><a href=mailto: safety@lisset.ca>safety@lisset.ca </a></p>
                             <!-- Placeholder -->
                         </div>
                     </div>
@@ -186,8 +187,8 @@
                         <div>
                             <h4>Headquarters</h4>
                             <p><a
-                                    href=https://www.google.com/maps/place/Mumbai,+Maharashtra/@19.0828067,72.7141316,65734m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3be7c6306644edc1:0x5da4ed8f8d648c69!8m2!3d18.9581934!4d72.8320729!16zL20vMDR2bXA?entry=ttu&g_ep=EgoyMDI2MDIyNS4wIKXMDSoASAFQAw%3D%3D>
-                                    123 Transport Way, Detroit, MI, USA</a></p> <!-- Placeholder -->
+                                    href=https://www.google.com/maps/place/15+Logan+St,+Truro,+NS+B2N+3Z4,+Canada/@45.3667151,-63.278151,557m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4b594fce0b5aaf91:0x2768bebbe4a1bee0!8m2!3d45.3667151!4d-63.2755761!16s%2Fg%2F11crsppjm7?entry=ttu&g_ep=EgoyMDI2MDIyNS4wIKXMDSoASAFQAw%3D%3D>
+                                    15 Logan Street , Truro, NS B2N 3Z4</a></p> <!-- Placeholder -->
                         </div>
                     </div>
                 </div>
@@ -329,15 +330,27 @@
         const globeGroup = new THREE.Group();
         scene.add(globeGroup);
 
+        // Lighting to brighten the globe evenly
+        const ambientLight = new THREE.AmbientLight(0xffffff, 2.0);
+        scene.add(ambientLight);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+        directionalLight.position.set(5, 3, 5);
+        scene.add(directionalLight);
+        const backLight = new THREE.DirectionalLight(0xaaccff, 0.4);
+        backLight.position.set(-5, -2, -5);
+        scene.add(backLight);
+
         // --- World Map Textured Sphere (Night Theme) ---
         const textureLoader = new THREE.TextureLoader();
-        // NASA Earth at Night (city lights) texture
-        const earthTexture = textureLoader.load('https://unpkg.com/three-globe@2.31.1/example/img/earth-night.jpg');
+        // NASA Blue Marble (bright day) texture
+        const earthTexture = textureLoader.load('https://unpkg.com/three-globe@2.31.1/example/img/earth-blue-marble.jpg');
         const sphereGeo = new THREE.SphereGeometry(4, 64, 64);
-        const sphereMat = new THREE.MeshBasicMaterial({
+        const sphereMat = new THREE.MeshPhongMaterial({
             map: earthTexture,
+            emissive: 0x334466,
+            emissiveIntensity: 0.25,
             transparent: true,
-            opacity: 0.95
+            opacity: 1.0
         });
         const texturedSphere = new THREE.Mesh(sphereGeo, sphereMat);
         globeGroup.add(texturedSphere);
@@ -398,7 +411,7 @@
         const markerGeo = new THREE.BufferGeometry();
         markerGeo.setAttribute('position', new THREE.BufferAttribute(markerPositions, 3));
         const markerMat = new THREE.PointsMaterial({
-            color: 0xf0c830,
+            color: 0xf5c518,
             size: 0.18,
             transparent: true,
             opacity: 1.0,
@@ -463,9 +476,9 @@
         }
 
         const routeMaterial = new THREE.LineBasicMaterial({
-            color: 0xf0c830,
+            color: 0xf5c518,
             transparent: true,
-            opacity: 0.7,
+            opacity: 0.8,
             linewidth: 1
         });
 
@@ -485,10 +498,10 @@
         // --- Dot Grid (Points) ---
         const dotGeo = new THREE.SphereGeometry(4.02, 80, 80);
         const dotMat = new THREE.PointsMaterial({
-            color: 0x4da6ff,
+            color: 0x80ccff,
             size: 0.04,
             transparent: true,
-            opacity: 0.5,
+            opacity: 0.4,
             sizeAttenuation: true
         });
         const dots = new THREE.Points(dotGeo, dotMat);
@@ -497,10 +510,10 @@
         // --- Network Wireframe Shell - Light Blue ---
         const wireGeo = new THREE.IcosahedronGeometry(4.15, 3);
         const wireMat = new THREE.MeshBasicMaterial({
-            color: 0xf0c830,
+            color: 0x80ccff,
             wireframe: true,
             transparent: true,
-            opacity: 0.1
+            opacity: 0.08
         });
         const wireframe = new THREE.Mesh(wireGeo, wireMat);
         globeGroup.add(wireframe);
@@ -508,9 +521,9 @@
         // --- Atmosphere Glow (inner shell) ---
         const atmosGeo = new THREE.SphereGeometry(4.08, 64, 64);
         const atmosMat = new THREE.MeshBasicMaterial({
-            color: 0xf0c830,
+            color: 0x7ec8f0,
             transparent: true,
-            opacity: 0.06,
+            opacity: 0.12,
             side: THREE.BackSide
         });
         const atmosphere = new THREE.Mesh(atmosGeo, atmosMat);
@@ -519,9 +532,9 @@
         // --- Outer Glow Ring - Light Blue ---
         const ringGeo = new THREE.RingGeometry(4.5, 4.7, 64);
         const ringMat = new THREE.MeshBasicMaterial({
-            color: 0x4da6ff,
+            color: 0x7ec8f0,
             transparent: true,
-            opacity: 0.15,
+            opacity: 0.18,
             side: THREE.DoubleSide
         });
         const ring = new THREE.Mesh(ringGeo, ringMat);
@@ -542,10 +555,10 @@
         }
         orbitGeo.setAttribute('position', new THREE.BufferAttribute(orbitPositions, 3));
         const orbitMat = new THREE.PointsMaterial({
-            color: 0xf5da5a,
+            color: 0xffeb66,
             size: 0.06,
             transparent: true,
-            opacity: 0.6,
+            opacity: 0.8,
             sizeAttenuation: true
         });
         const orbitParticles = new THREE.Points(orbitGeo, orbitMat);
