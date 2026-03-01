@@ -899,6 +899,15 @@ footer {
         display: block;
     }
 
+    .hero {
+        background-attachment: scroll;
+        min-height: 100vh;
+    }
+
+    .hero-content {
+        padding: 40px 24px 30px;
+    }
+
     .hero h1 {
         font-size: 2.5rem;
     }
@@ -924,7 +933,8 @@ footer {
 
     .about-image {
         width: 100%;
-        height: 350px;
+        height: 70vw;
+        min-height: 300px;
         border-radius: 15px;
     }
 }

@@ -22,7 +22,7 @@
     <nav class="navbar">
         <div class="logo">
             <img src="assets/logo.jpeg" alt="LISSET TRANSPORT INC Logo">
-            <span>Lisset Transport Inc</span>
+            <span>Lisset<br>Transport Inc</span>
         </div>
         <ul class="nav-links">
             <li><a href="#home">Home</a></li>
@@ -564,7 +564,11 @@
         const orbitParticles = new THREE.Points(orbitGeo, orbitMat);
         globeGroup.add(orbitParticles);
 
-        camera.position.z = 10;
+        // Closer camera on mobile for a larger globe
+        function updateCameraDistance() {
+            camera.position.z = window.innerWidth < 768 ? 8 : 10;
+        }
+        updateCameraDistance();
 
         // Mouse interaction (subtle tilt)
         let mouseX = 0, mouseY = 0;
@@ -606,6 +610,7 @@
             camera.aspect = w / h;
             camera.updateProjectionMatrix();
             renderer.setSize(w, h);
+            updateCameraDistance();
         }
         window.addEventListener('resize', onResize);
 
