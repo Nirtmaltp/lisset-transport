@@ -29,6 +29,7 @@
                 <li><a href="#home">Home</a></li>
                 <li><a href="#showcase">Services</a></li>
                 <li><a href="#about">About Us</a></li>
+                <li><a href="#gallery">Gallery</a></li>
                 <li><a href="#contact" class="cta-btn">Contact Us</a></li>
 
             </ul>
@@ -231,6 +232,47 @@
             </div>
         </div>
     </section>
+
+    <!-- ===== GALLERY SECTION ===== -->
+    <section id="gallery" class="gallery-section">
+        <div class="container">
+            <h2 class="section-title">Our Fleet in Action</h2>
+            <p class="gallery-subtitle">A glimpse of Lisset Transport Inc on the road</p>
+            <div class="gallery-grid">
+                <div class="gallery-item gallery-item--wide">
+                    <img src="assets/gallery1.jpeg" alt="Lisset Transport fleet" loading="lazy">
+                    <div class="gallery-overlay"><i class="fas fa-expand-alt"></i></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="assets/gallery (1).jpg" alt="Lisset Transport truck" loading="lazy">
+                    <div class="gallery-overlay"><i class="fas fa-expand-alt"></i></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="assets/gallery (2).jpg" alt="Cross-border transport" loading="lazy">
+                    <div class="gallery-overlay"><i class="fas fa-expand-alt"></i></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="assets/gallery (3).jpg" alt="Lisset Transport on the road" loading="lazy">
+                    <div class="gallery-overlay"><i class="fas fa-expand-alt"></i></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="assets/gallery (4).jpg" alt="Lisset Transport logistics" loading="lazy">
+                    <div class="gallery-overlay"><i class="fas fa-expand-alt"></i></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightbox-close" aria-label="Close"><i class="fas fa-times"></i></button>
+        <button class="lightbox-prev" id="lightbox-prev" aria-label="Previous"><i
+                class="fas fa-chevron-left"></i></button>
+        <div class="lightbox-img-wrap">
+            <img src="" id="lightbox-img" alt="Gallery image">
+        </div>
+        <button class="lightbox-next" id="lightbox-next" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
+    </div>
 
     <footer>
         <div class="container">
@@ -995,6 +1037,58 @@
             /* ---------- Init ---------- */
             document.body.classList.add('has-ticker');
             renderJobs();
+        })();
+    </script>
+
+    <!-- ===== GALLERY LIGHTBOX SCRIPT ===== -->
+    <script>
+        (function () {
+            const items = Array.from(document.querySelectorAll('.gallery-item'));
+            const lightbox = document.getElementById('lightbox');
+            const lbImg = document.getElementById('lightbox-img');
+            const lbClose = document.getElementById('lightbox-close');
+            const lbPrev = document.getElementById('lightbox-prev');
+            const lbNext = document.getElementById('lightbox-next');
+
+            let current = 0;
+            const srcs = items.map(item => item.querySelector('img').src);
+            const alts = items.map(item => item.querySelector('img').alt);
+
+            function open(idx) {
+                current = (idx + srcs.length) % srcs.length;
+                lbImg.style.opacity = '0';
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                setTimeout(function () {
+                    lbImg.src = srcs[current];
+                    lbImg.alt = alts[current];
+                    lbImg.style.opacity = '1';
+                }, 80);
+            }
+
+            function close() {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            items.forEach(function (item, idx) {
+                item.addEventListener('click', function () { open(idx); });
+            });
+
+            lbClose.addEventListener('click', close);
+            lbPrev.addEventListener('click', function () { open(current - 1); });
+            lbNext.addEventListener('click', function () { open(current + 1); });
+
+            lightbox.addEventListener('click', function (e) {
+                if (e.target === lightbox) close();
+            });
+
+            document.addEventListener('keydown', function (e) {
+                if (!lightbox.classList.contains('active')) return;
+                if (e.key === 'Escape') close();
+                if (e.key === 'ArrowLeft') open(current - 1);
+                if (e.key === 'ArrowRight') open(current + 1);
+            });
         })();
     </script>
 </body>

@@ -1424,6 +1424,186 @@ body.has-ticker {
     }
 }
 
+/* ===== GALLERY SECTION ===== */
+.gallery-section {
+    padding: 100px 0 80px;
+    background: #0d1b3e;
+}
+
+.gallery-section .section-title {
+    color: #fff;
+}
+
+.gallery-section .section-title::after {
+    background: var(--primary-color);
+}
+
+.gallery-subtitle {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 1rem;
+    margin-top: -2rem;
+    margin-bottom: 3rem;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto auto;
+    gap: 12px;
+}
+
+/* First image spans 2 columns */
+.gallery-item--wide {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    cursor: pointer;
+    background: #1a2f6e;
+    aspect-ratio: 4/3;
+}
+
+.gallery-item--wide {
+    aspect-ratio: unset;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.45s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.07);
+}
+
+.gallery-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(13, 27, 62, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.gallery-item:hover .gallery-overlay {
+    opacity: 1;
+}
+
+.gallery-overlay i {
+    color: var(--primary-color);
+    font-size: 1.8rem;
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5));
+    transform: scale(0.8);
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover .gallery-overlay i {
+    transform: scale(1);
+}
+
+/* ===== LIGHTBOX ===== */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(5, 10, 25, 0.96);
+    z-index: 99999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(6px);
+}
+
+.lightbox.active {
+    display: flex;
+}
+
+.lightbox-img-wrap {
+    max-width: 90vw;
+    max-height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-img-wrap img {
+    max-width: 90vw;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: 10px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+    transition: opacity 0.25s ease;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 24px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    color: #fff;
+    font-size: 1.2rem;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    z-index: 2;
+}
+
+.lightbox-close:hover {
+    background: rgba(245, 197, 24, 0.25);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.lightbox-prev,
+.lightbox-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1.5px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-size: 1.1rem;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, border-color 0.2s;
+    z-index: 2;
+}
+
+.lightbox-prev {
+    left: 20px;
+}
+
+.lightbox-next {
+    right: 20px;
+}
+
+.lightbox-prev:hover,
+.lightbox-next:hover {
+    background: rgba(245, 197, 24, 0.2);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
 /* Responsive */
 @media (max-width: 992px) {
     .hero h1 {
@@ -1568,5 +1748,26 @@ body.has-ticker {
 
     .about-content {
         gap: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .gallery-item--wide {
+        grid-column: span 2;
+        grid-row: span 1;
+    }
+}
+
+@media (max-width: 480px) {
+    .gallery-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .gallery-item--wide {
+        grid-column: span 1;
     }
 }
