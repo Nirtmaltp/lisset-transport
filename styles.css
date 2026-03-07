@@ -1464,6 +1464,24 @@ body.has-ticker {
 }
 
 @media (max-width: 768px) {
+    .ticker-label {
+        font-size: 0.58rem;
+        padding: 0 8px;
+        letter-spacing: 0.8px;
+        gap: 4px;
+    }
+
+    .ticker-label i {
+        font-size: 0.7rem;
+    }
+
+    .ticker-view-all {
+        font-size: 0.6rem;
+        padding: 4px 8px;
+        margin-right: 6px;
+        letter-spacing: 0.5px;
+    }
+
     .nav-links {
         position: fixed;
         right: -100%;
