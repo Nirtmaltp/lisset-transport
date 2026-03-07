@@ -1771,3 +1771,69 @@ body.has-ticker {
         grid-column: span 1;
     }
 }
+
+/* ===== SCROLL-TO-TOP BUTTON ===== */
+#scroll-top-btn {
+    position: fixed;
+    bottom: 32px;
+    right: 28px;
+    z-index: 9000;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    color: #0d1b3e;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 20px rgba(245, 197, 24, 0.35);
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.3s ease, transform 0.3s ease, background 0.2s;
+    pointer-events: none;
+}
+
+#scroll-top-btn.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+#scroll-top-btn:hover {
+    background: #ffd84d;
+    box-shadow: 0 8px 28px rgba(245, 197, 24, 0.55);
+}
+
+/* ===== ACTIVE NAV LINK ===== */
+.nav-links a.active {
+    color: var(--primary-color) !important;
+}
+
+.nav-links a.active::after {
+    width: 100% !important;
+}
+
+/* ===== NAVBAR SHRINK ON SCROLL ===== */
+.nav-ticker-wrapper.scrolled .navbar {
+    padding: 8px 5%;
+}
+
+.nav-ticker-wrapper.scrolled .logo img {
+    height: 52px;
+    transition: height 0.3s ease;
+}
+
+/* ===== SCROLL REVEAL ===== */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}

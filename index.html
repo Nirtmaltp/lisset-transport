@@ -200,8 +200,14 @@
                         <i class="fas fa-envelope"></i>
                         <div>
                             <h4>Email</h4>
-                            <p><a href=mailto: safety@lisset.ca>safety@lisset.ca </a></p>
-                            <!-- Placeholder -->
+                            <p><a href="mailto:safety@lisset.ca">safety@lisset.ca</a></p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-briefcase"></i>
+                        <div>
+                            <h4>Careers</h4>
+                            <p><a href="mailto:careers@lisset.ca">careers@lisset.ca</a></p>
                         </div>
                     </div>
                     <div class="info-item">
@@ -289,62 +295,8 @@
         </div>
     </footer>
 
-    <!-- ===== PIN MODAL ===== -->
-    <div class="modal-overlay" id="pin-modal" role="dialog" aria-modal="true" aria-labelledby="pin-modal-title">
-        <div class="modal-box" style="max-width:340px">
-            <button class="modal-close" id="pin-modal-close" aria-label="Close">&times;</button>
-            <h3 id="pin-modal-title">Admin Access</h3>
-            <div class="form-group">
-                <label for="pin-input">Enter PIN</label>
-                <input type="password" id="pin-input" class="pin-input" maxlength="8" placeholder="••••"
-                    autocomplete="off">
-            </div>
-            <p id="pin-error" style="color:#e05555;font-size:0.82rem;min-height:1rem;"></p>
-            <div class="modal-buttons">
-                <button class="modal-btn-save" id="pin-submit">Unlock</button>
-                <button class="modal-btn-cancel" id="pin-cancel">Cancel</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ===== JOB EDITOR MODAL ===== -->
-    <div class="modal-overlay" id="job-modal" role="dialog" aria-modal="true" aria-labelledby="job-modal-title">
-        <div class="modal-box" style="width:480px">
-            <button class="modal-close" id="job-modal-close" aria-label="Close">&times;</button>
-            <h3 id="job-modal-title">Add Job Posting</h3>
-            <div class="form-group">
-                <label for="jm-title">Job Title</label>
-                <input type="text" id="jm-title" placeholder="e.g. OTR Driver (O/O)">
-            </div>
-            <div class="form-group">
-                <label for="jm-location">Location</label>
-                <input type="text" id="jm-location" placeholder="e.g. Truro, NS · Remote">
-            </div>
-            <div class="form-group">
-                <label for="jm-type">Employment Type</label>
-                <select id="jm-type">
-                    <option value="Full-Time">Full-Time</option>
-                    <option value="Part-Time">Part-Time</option>
-                    <option value="Owner-Operator">Owner-Operator</option>
-                    <option value="Contract">Contract</option>
-                    <option value="Remote">Remote</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="jm-icon">Icon (Font Awesome class)</label>
-                <input type="text" id="jm-icon" placeholder="e.g. fa-truck-moving">
-            </div>
-            <div class="form-group">
-                <label for="jm-desc">Description</label>
-                <textarea id="jm-desc" rows="3" placeholder="Brief role description…"></textarea>
-            </div>
-            <div class="modal-buttons">
-                <button class="modal-btn-save" id="jm-save">Save Posting</button>
-                <button class="modal-btn-cancel" id="jm-cancel">Cancel</button>
-                <button class="modal-btn-delete" id="jm-delete" style="display:none">Delete</button>
-            </div>
-        </div>
-    </div>
+    <!-- Scroll to Top -->
+    <button id="scroll-top-btn" aria-label="Back to top"><i class="fas fa-chevron-up"></i></button>
 
     <script type="importmap">
         {
@@ -355,115 +307,125 @@
     </script>
 
     <script>
-        // Simple script for mobile menu toggle
+        /* ===== NAVBAR VARS ===== */
         const hamburger = document.querySelector('.hamburger');
         const navLinks = document.querySelector('.nav-links');
+        const navWrapper = document.querySelector('.nav-ticker-wrapper');
+        const allNavLinks = document.querySelectorAll('.nav-links a[href^="#"]');
 
-        hamburger.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
+        /* ===== MOBILE MENU ===== */
+        hamburger.addEventListener('click', () => navLinks.classList.toggle('active'));
+
+        // Close on outside click
+        document.addEventListener('click', (e) => {
+            if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+                navLinks.classList.remove('active');
+            }
         });
 
-        // Smooth scrolling
+        /* ===== SMOOTH SCROLL with navbar offset ===== */
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
+                const target = document.querySelector(this.getAttribute('href'));
+                if (!target) return;
                 e.preventDefault();
-                navLinks.classList.remove('active'); // Close menu on click
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+                navLinks.classList.remove('active');
+                const offset = navWrapper.offsetHeight + 8;
+                const top = target.getBoundingClientRect().top + window.scrollY - offset;
+                window.scrollTo({ top, behavior: 'smooth' });
             });
         });
 
-        // ========== EmailJS Contact Form ==========
-        // IMPORTANT: Replace these 3 values with your actual EmailJS credentials
-        const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY';      // From EmailJS > Account > General
-        const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID';      // From EmailJS > Email Services
-        const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';    // From EmailJS > Email Templates
+        /* ===== NAVBAR SHRINK ON SCROLL ===== */
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 60) {
+                navWrapper.classList.add('scrolled');
+            } else {
+                navWrapper.classList.remove('scrolled');
+            }
+        }, { passive: true });
 
+        /* ===== ACTIVE NAV LINK via IntersectionObserver ===== */
+        const sections = document.querySelectorAll('section[id], header[id]');
+        const observerOpts = { rootMargin: '-30% 0px -60% 0px', threshold: 0 };
+        const navObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const link = document.querySelector('.nav-links a[href="#' + entry.target.id + '"]');
+                if (link) link.classList.toggle('active', entry.isIntersecting);
+            });
+        }, observerOpts);
+        sections.forEach(s => navObserver.observe(s));
+
+        /* ===== SCROLL REVEAL ===== */
+        const revealEls = document.querySelectorAll(
+            '.feature-card, .about-content, .contact-wrapper, .gallery-item, .carousel-section__inner'
+        );
+        revealEls.forEach(el => el.classList.add('reveal'));
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12 });
+        revealEls.forEach(el => revealObserver.observe(el));
+
+        /* ===== SCROLL-TO-TOP BUTTON ===== */
+        const scrollTopBtn = document.getElementById('scroll-top-btn');
+        window.addEventListener('scroll', () => {
+            scrollTopBtn.classList.toggle('visible', window.scrollY > 500);
+        }, { passive: true });
+        scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+        /* ===== EMAILJS CONTACT FORM ===== */
+        const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY';
+        const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID';
+        const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
         emailjs.init(EMAILJS_PUBLIC_KEY);
 
         const contactForm = document.getElementById('contact-form');
         const submitBtn = document.getElementById('contact-submit-btn');
-        const toast = document.getElementById('toast');
-        const toastMessage = document.getElementById('toast-message');
-        const toastIcon = document.getElementById('toast-icon');
 
         function showToast(message, type) {
-            // Remove any existing banner
             const existing = document.getElementById('mail-confirm-banner');
             if (existing) existing.remove();
-
             const isSuccess = type === 'success';
             const banner = document.createElement('div');
             banner.id = 'mail-confirm-banner';
             banner.style.cssText = `
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%) scale(0.85);
-                z-index: 99999;
-                background: ${isSuccess ? 'linear-gradient(135deg,#0f6b38,#27ae60)' : 'linear-gradient(135deg,#962d22,#e74c3c)'};
-                color: #fff;
-                border-radius: 14px;
-                padding: 22px 28px;
-                text-align: center;
-                box-shadow: 0 12px 40px rgba(0,0,0,0.35);
-                max-width: 90vw;
-                width: 280px;
-                opacity: 0;
-                transition: opacity 0.35s ease, transform 0.35s ease;
-                font-family: 'Outfit', sans-serif;
-            `;
+                position:fixed;top:50%;left:50%;
+                transform:translate(-50%,-50%) scale(0.85);
+                z-index:99999;
+                background:${isSuccess ? 'linear-gradient(135deg,#0f6b38,#27ae60)' : 'linear-gradient(135deg,#962d22,#e74c3c)'};
+                color:#fff;border-radius:14px;padding:22px 28px;
+                text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.35);
+                max-width:90vw;width:280px;opacity:0;
+                transition:opacity .35s ease,transform .35s ease;
+                font-family:'Outfit',sans-serif;`;
             banner.innerHTML = `
-                <div style="font-size:2rem;margin-bottom:8px;line-height:1">
-                    ${isSuccess ? '✅' : '❌'}
-                </div>
-                <div style="font-size:1rem;font-weight:700;margin-bottom:6px;letter-spacing:0.3px">
-                    ${isSuccess ? 'Message Sent!' : 'Delivery Failed'}
-                </div>
-                <div style="font-size:0.82rem;opacity:0.9;line-height:1.45">
-                    ${message}
-                </div>
+                <div style="font-size:2rem;margin-bottom:8px">${isSuccess ? '✅' : '❌'}</div>
+                <div style="font-size:1rem;font-weight:700;margin-bottom:6px">${isSuccess ? 'Message Sent!' : 'Delivery Failed'}</div>
+                <div style="font-size:.82rem;opacity:.9;line-height:1.45">${message}</div>
                 <button onclick="this.parentElement.remove();document.getElementById('mail-confirm-overlay').remove();"
-                    style="margin-top:14px;background:rgba(255,255,255,0.2);border:1.5px solid rgba(255,255,255,0.5);
-                    color:#fff;padding:6px 20px;border-radius:50px;font-size:0.78rem;font-weight:600;
-                    cursor:pointer;letter-spacing:0.8px;text-transform:uppercase;">
+                    style="margin-top:14px;background:rgba(255,255,255,.2);border:1.5px solid rgba(255,255,255,.5);
+                    color:#fff;padding:6px 20px;border-radius:50px;font-size:.78rem;font-weight:600;cursor:pointer">
                     OK
-                </button>
-            `;
-
-            // Dark backdrop
+                </button>`;
             const overlay = document.createElement('div');
             overlay.id = 'mail-confirm-overlay';
-            overlay.style.cssText = `
-                position: fixed; inset: 0;
-                background: rgba(0,0,0,0.55);
-                z-index: 99998;
-                backdrop-filter: blur(3px);
-                opacity: 0;
-                transition: opacity 0.35s ease;
-            `;
-            overlay.addEventListener('click', () => {
-                banner.remove();
-                overlay.remove();
-            });
-
+            overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:99998;backdrop-filter:blur(3px);opacity:0;transition:opacity .35s ease;';
+            overlay.addEventListener('click', () => { banner.remove(); overlay.remove(); });
             document.body.appendChild(overlay);
             document.body.appendChild(banner);
-
-            // Animate in
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                    overlay.style.opacity = '1';
-                    banner.style.opacity = '1';
-                    banner.style.transform = 'translate(-50%, -50%) scale(1)';
-                });
-            });
-
-            // Auto-dismiss after 5 seconds
+            requestAnimationFrame(() => requestAnimationFrame(() => {
+                overlay.style.opacity = '1';
+                banner.style.opacity = '1';
+                banner.style.transform = 'translate(-50%,-50%) scale(1)';
+            }));
             setTimeout(() => {
                 banner.style.opacity = '0';
-                banner.style.transform = 'translate(-50%, -50%) scale(0.85)';
+                banner.style.transform = 'translate(-50%,-50%) scale(0.85)';
                 overlay.style.opacity = '0';
                 setTimeout(() => { banner.remove(); overlay.remove(); }, 400);
             }, 5000);
@@ -471,24 +433,15 @@
 
         contactForm.addEventListener('submit', function (e) {
             e.preventDefault();
-
-            // Disable button and show loading state
             submitBtn.disabled = true;
-            submitBtn.textContent = 'Sending...';
-
+            submitBtn.textContent = 'Sending…';
             emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, this)
                 .then(() => {
-                    showToast('Message sent successfully! We\'ll get back to you soon.', 'success');
+                    showToast('Message sent! We\'ll get back to you soon.', 'success');
                     contactForm.reset();
                 })
-                .catch((error) => {
-                    console.error('EmailJS Error:', error);
-                    showToast('Failed to send message. Please try again or email us directly.', 'error');
-                })
-                .finally(() => {
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Send Message';
-                });
+                .catch(() => showToast('Failed to send. Please try again or email us directly.', 'error'))
+                .finally(() => { submitBtn.disabled = false; submitBtn.textContent = 'Send Message'; });
         });
     </script>
 
@@ -807,238 +760,8 @@
         <span id="toast-message"></span>
     </div>
 
-    <!-- ===== HIRING SYSTEM SCRIPT ===== -->
-    <script>
-        (function () {
-            'use strict';
-
-            const ADMIN_PIN = '1234'; // ← change this to your desired PIN
-            const LS_KEY = 'lisset_jobs_v1';
-
-            const DEFAULT_JOBS = [
-                { id: 'j1', title: 'Owner/Operator Driver', location: 'Truro, NS', type: 'Owner-Operator', icon: 'fa-truck-moving', desc: 'Cross-border runs (US & Canada). Competitive mileage pay, fuel cards, and border assistance provided.' },
-                { id: 'j2', title: 'Dispatcher', location: 'Remote / Hybrid', type: 'Full-Time', icon: 'fa-headset', desc: 'Coordinate fleet movements, liaise with drivers and clients. Experience with cross-border logistics preferred.' },
-                { id: 'j3', title: 'Safety & Compliance Officer', location: 'Truro, NS', type: 'Full-Time', icon: 'fa-shield-alt', desc: 'Ensure DOT and Transport Canada compliance across all operations. CVOR & commercial experience required.' },
-                { id: 'j4', title: 'Border Crossing Coordinator', location: 'Truro, NS', type: 'Full-Time', icon: 'fa-passport', desc: 'Manage customs documentation and cross-border logistics. Bilingual (EN/FR) considered an asset.' },
-            ];
-
-            /* ---------- State ---------- */
-            let jobs = loadJobs();
-            let isAdmin = false;
-            let editingId = null;
-
-            /* ---------- DOM refs ---------- */
-            const jobsGrid = document.getElementById('jobs-grid');
-            const tickerScroll = document.getElementById('ticker-scroll');
-            const hiringSection = document.getElementById('hiring');
-
-            const btnAdminLogin = document.getElementById('btn-admin-login');
-            const btnAdminAdd = document.getElementById('btn-admin-add');
-            const btnAdminLogout = document.getElementById('btn-admin-logout');
-
-            // PIN modal
-            const pinModal = document.getElementById('pin-modal');
-            const pinInput = document.getElementById('pin-input');
-            const pinError = document.getElementById('pin-error');
-            const pinSubmit = document.getElementById('pin-submit');
-            const pinCancel = document.getElementById('pin-cancel');
-            document.getElementById('pin-modal-close').addEventListener('click', closePinModal);
-
-            // Job modal
-            const jobModal = document.getElementById('job-modal');
-            const jmTitle = document.getElementById('jm-title');
-            const jmLocation = document.getElementById('jm-location');
-            const jmType = document.getElementById('jm-type');
-            const jmIcon = document.getElementById('jm-icon');
-            const jmDesc = document.getElementById('jm-desc');
-            const jmSave = document.getElementById('jm-save');
-            const jmCancel = document.getElementById('jm-cancel');
-            const jmDelete = document.getElementById('jm-delete');
-            const jmModalTitle = document.getElementById('job-modal-title');
-            document.getElementById('job-modal-close').addEventListener('click', closeJobModal);
-
-            /* ---------- Storage ---------- */
-            function loadJobs() {
-                try {
-                    const raw = localStorage.getItem(LS_KEY);
-                    return raw ? JSON.parse(raw) : [...DEFAULT_JOBS];
-                } catch (e) {
-                    return [...DEFAULT_JOBS];
-                }
-            }
-
-            function saveJobs() {
-                localStorage.setItem(LS_KEY, JSON.stringify(jobs));
-            }
-
-            function genId() {
-                return 'j_' + Date.now().toString(36);
-            }
-
-            /* ---------- Helpers ---------- */
-            function escHtml(str) {
-                return String(str || '')
-                    .replace(/&/g, '&amp;').replace(/</g, '&lt;')
-                    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-            }
-
-            /* ---------- Render ---------- */
-            function renderJobs() {
-                jobsGrid.innerHTML = '';
-                if (jobs.length === 0) {
-                    jobsGrid.innerHTML = '<p class="no-jobs"><i class="fas fa-hard-hat" style="font-size:2rem;display:block;margin-bottom:12px"></i>No positions open right now. Check back soon!</p>';
-                    renderTicker();
-                    return;
-                }
-                jobs.forEach(function (job) {
-                    const card = document.createElement('article');
-                    card.className = 'job-card';
-                    card.dataset.id = job.id;
-                    card.innerHTML =
-                        '<div class="job-card-icon"><i class="fas ' + escHtml(job.icon || 'fa-briefcase') + '"></i></div>' +
-                        '<span class="job-card-type">' + escHtml(job.type) + '</span>' +
-                        '<h3>' + escHtml(job.title) + '</h3>' +
-                        '<div class="job-card-location"><i class="fas fa-map-marker-alt"></i>' + escHtml(job.location) + '</div>' +
-                        '<p class="job-desc">' + escHtml(job.desc) + '</p>' +
-                        '<div class="job-card-footer">' +
-                        '<a href="#contact" class="btn-apply">Apply Now</a>' +
-                        '<button class="btn-edit-job" data-id="' + escHtml(job.id) + '"><i class="fas fa-pen"></i> Edit</button>' +
-                        '</div>';
-                    jobsGrid.appendChild(card);
-                });
-
-                jobsGrid.querySelectorAll('.btn-edit-job').forEach(function (btn) {
-                    btn.addEventListener('click', function () { openJobModal(btn.dataset.id); });
-                });
-
-                renderTicker();
-            }
-
-            function renderTicker() {
-                tickerScroll.innerHTML = '';
-                const items = jobs.length > 0 ? jobs : [{ title: 'No open positions right now', type: 'Stay tuned', location: '' }];
-                // Double items for seamless loop
-                items.concat(items).forEach(function (job) {
-                    const span = document.createElement('span');
-                    span.className = 'ticker-item';
-                    span.innerHTML = '<span class="tag">' + escHtml(job.type) + '</span>' +
-                        escHtml(job.title) +
-                        (job.location ? ' &mdash; ' + escHtml(job.location) : '');
-                    tickerScroll.appendChild(span);
-                });
-                const duration = Math.max(18, items.length * 7);
-                tickerScroll.style.animationDuration = duration + 's';
-            }
-
-            /* ---------- Admin ---------- */
-            function setAdminMode(active) {
-                isAdmin = active;
-                if (active) {
-                    hiringSection.classList.add('admin-active');
-                } else {
-                    hiringSection.classList.remove('admin-active');
-                }
-            }
-
-            btnAdminLogin.addEventListener('click', openPinModal);
-            btnAdminLogout.addEventListener('click', function () { setAdminMode(false); });
-            btnAdminAdd.addEventListener('click', function () { openJobModal(null); });
-
-            /* ---------- PIN Modal ---------- */
-            function openPinModal() {
-                pinInput.value = '';
-                pinError.textContent = '';
-                pinModal.classList.add('open');
-                setTimeout(function () { pinInput.focus(); }, 100);
-            }
-
-            function closePinModal() {
-                pinModal.classList.remove('open');
-            }
-
-            function submitPin() {
-                if (pinInput.value === ADMIN_PIN) {
-                    setAdminMode(true);
-                    closePinModal();
-                } else {
-                    pinError.textContent = 'Incorrect PIN. Try again.';
-                    pinInput.value = '';
-                    pinInput.focus();
-                }
-            }
-
-            pinSubmit.addEventListener('click', submitPin);
-            pinCancel.addEventListener('click', closePinModal);
-            pinInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') submitPin(); });
-            pinModal.addEventListener('click', function (e) { if (e.target === pinModal) closePinModal(); });
-
-            /* ---------- Job Modal ---------- */
-            function openJobModal(jobId) {
-                editingId = jobId;
-                if (jobId) {
-                    const job = jobs.find(function (j) { return j.id === jobId; });
-                    if (!job) return;
-                    jmModalTitle.textContent = 'Edit Job Posting';
-                    jmTitle.value = job.title;
-                    jmLocation.value = job.location;
-                    jmType.value = job.type;
-                    jmIcon.value = job.icon || '';
-                    jmDesc.value = job.desc;
-                    jmDelete.style.display = 'inline-block';
-                } else {
-                    jmModalTitle.textContent = 'Add Job Posting';
-                    jmTitle.value = jmLocation.value = jmIcon.value = jmDesc.value = '';
-                    jmType.value = 'Full-Time';
-                    jmDelete.style.display = 'none';
-                }
-                jobModal.classList.add('open');
-                setTimeout(function () { jmTitle.focus(); }, 100);
-            }
-
-            function closeJobModal() {
-                jobModal.classList.remove('open');
-                editingId = null;
-            }
-
-            jmCancel.addEventListener('click', closeJobModal);
-            jobModal.addEventListener('click', function (e) { if (e.target === jobModal) closeJobModal(); });
-
-            jmSave.addEventListener('click', function () {
-                const title = jmTitle.value.trim();
-                if (!title) { jmTitle.focus(); return; }
-                const payload = {
-                    title: title,
-                    location: jmLocation.value.trim() || 'Truro, NS',
-                    type: jmType.value,
-                    icon: jmIcon.value.trim() || 'fa-briefcase',
-                    desc: jmDesc.value.trim()
-                };
-                if (editingId) {
-                    const idx = jobs.findIndex(function (j) { return j.id === editingId; });
-                    if (idx > -1) jobs[idx] = Object.assign({ id: editingId }, payload);
-                } else {
-                    jobs.unshift(Object.assign({ id: genId() }, payload));
-                }
-                saveJobs();
-                renderJobs();
-                closeJobModal();
-            });
-
-            jmDelete.addEventListener('click', function () {
-                if (!editingId) return;
-                if (confirm('Delete this job posting? This cannot be undone.')) {
-                    jobs = jobs.filter(function (j) { return j.id !== editingId; });
-                    saveJobs();
-                    renderJobs();
-                    closeJobModal();
-                }
-            });
-
-            /* ---------- Init ---------- */
-            document.body.classList.add('has-ticker');
-            renderJobs();
-        })();
-    </script>
+    <!-- Ticker init -->
+    <script>document.body.classList.add('has-ticker');</script>
 
     <!-- ===== GALLERY LIGHTBOX SCRIPT ===== -->
     <script>
