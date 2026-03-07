@@ -19,22 +19,45 @@
 </head>
 
 <body>
-    <nav class="navbar">
-        <div class="logo">
-            <img src="assets/logo.jpeg" alt="LISSET TRANSPORT INC Logo">
-            <span>Lisset<br>Transport Inc</span>
+    <div class="nav-ticker-wrapper">
+        <nav class="navbar">
+            <div class="logo">
+                <img src="assets/logo.jpeg" alt="LISSET TRANSPORT INC Logo">
+                <span>Lisset<br>Transport Inc</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#showcase">Services</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#contact" class="cta-btn">Contact Us</a></li>
+
+            </ul>
+            <div class="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+
+        <!-- ===== HIRING TICKER BAR ===== -->
+        <div class="hiring-ticker-bar" aria-label="We are hiring">
+            <div class="ticker-label">
+                <i class="fas fa-truck"></i> We're Hiring
+            </div>
+            <div class="ticker-track">
+                <div class="ticker-scroll">
+                    <span class="ticker-item">🚛 We Are Hiring! &nbsp;&mdash;&nbsp; Join Lisset Transport Inc
+                        &nbsp;&mdash;&nbsp; Exciting Opportunities Available &nbsp;&mdash;&nbsp; Apply Today
+                        &nbsp;&mdash;&nbsp;</span>
+                    <span class="ticker-item">🚛 We Are Hiring! &nbsp;&mdash;&nbsp; Join Lisset Transport Inc
+                        &nbsp;&mdash;&nbsp; Exciting Opportunities Available &nbsp;&mdash;&nbsp; Apply Today
+                        &nbsp;&mdash;&nbsp;</span>
+                    <span class="ticker-item">🚛 We Are Hiring! &nbsp;&mdash;&nbsp; Join Lisset Transport Inc
+                        &nbsp;&mdash;&nbsp; Exciting Opportunities Available &nbsp;&mdash;&nbsp; Apply Today
+                        &nbsp;&mdash;&nbsp;</span>
+                </div>
+            </div>
+            <a href="#contact" class="ticker-view-all">Apply Now &rarr;</a>
         </div>
-        <ul class="nav-links">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#showcase">Services</a></li>
-            <li><a href="#about">About Us</a></li>
-            <li><a href="#contact" class="cta-btn">Contact Us</a></li>
-            <li><a href="#contact" class="cta-btn hiring-btn">Hiring O/P</a></li>
-        </ul>
-        <div class="hamburger">
-            <i class="fas fa-bars"></i>
-        </div>
-    </nav>
+    </div>
 
     <header id="home" class="hero">
         <div class="hero-content">
@@ -66,8 +89,6 @@
             <p>Punctuality is our priority. We value your time and schedule.</p>
         </div>
     </section>
-
-
 
     <section id="showcase" class="carousel-section">
         <div class="carousel-section__inner">
@@ -226,10 +247,61 @@
         </div>
     </footer>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="toast">
-        <span id="toast-icon" class="toast-icon"></span>
-        <span id="toast-message"></span>
+    <!-- ===== PIN MODAL ===== -->
+    <div class="modal-overlay" id="pin-modal" role="dialog" aria-modal="true" aria-labelledby="pin-modal-title">
+        <div class="modal-box" style="max-width:340px">
+            <button class="modal-close" id="pin-modal-close" aria-label="Close">&times;</button>
+            <h3 id="pin-modal-title">Admin Access</h3>
+            <div class="form-group">
+                <label for="pin-input">Enter PIN</label>
+                <input type="password" id="pin-input" class="pin-input" maxlength="8" placeholder="••••"
+                    autocomplete="off">
+            </div>
+            <p id="pin-error" style="color:#e05555;font-size:0.82rem;min-height:1rem;"></p>
+            <div class="modal-buttons">
+                <button class="modal-btn-save" id="pin-submit">Unlock</button>
+                <button class="modal-btn-cancel" id="pin-cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== JOB EDITOR MODAL ===== -->
+    <div class="modal-overlay" id="job-modal" role="dialog" aria-modal="true" aria-labelledby="job-modal-title">
+        <div class="modal-box" style="width:480px">
+            <button class="modal-close" id="job-modal-close" aria-label="Close">&times;</button>
+            <h3 id="job-modal-title">Add Job Posting</h3>
+            <div class="form-group">
+                <label for="jm-title">Job Title</label>
+                <input type="text" id="jm-title" placeholder="e.g. OTR Driver (O/O)">
+            </div>
+            <div class="form-group">
+                <label for="jm-location">Location</label>
+                <input type="text" id="jm-location" placeholder="e.g. Truro, NS · Remote">
+            </div>
+            <div class="form-group">
+                <label for="jm-type">Employment Type</label>
+                <select id="jm-type">
+                    <option value="Full-Time">Full-Time</option>
+                    <option value="Part-Time">Part-Time</option>
+                    <option value="Owner-Operator">Owner-Operator</option>
+                    <option value="Contract">Contract</option>
+                    <option value="Remote">Remote</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="jm-icon">Icon (Font Awesome class)</label>
+                <input type="text" id="jm-icon" placeholder="e.g. fa-truck-moving">
+            </div>
+            <div class="form-group">
+                <label for="jm-desc">Description</label>
+                <textarea id="jm-desc" rows="3" placeholder="Brief role description…"></textarea>
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-btn-save" id="jm-save">Save Posting</button>
+                <button class="modal-btn-cancel" id="jm-cancel">Cancel</button>
+                <button class="modal-btn-delete" id="jm-delete" style="display:none">Delete</button>
+            </div>
+        </div>
     </div>
 
     <script type="importmap">
@@ -615,6 +687,245 @@
         window.addEventListener('resize', onResize);
 
         animate();
+    </script>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <span id="toast-icon" class="toast-icon"></span>
+        <span id="toast-message"></span>
+    </div>
+
+    <!-- ===== HIRING SYSTEM SCRIPT ===== -->
+    <script>
+        (function () {
+            'use strict';
+
+            const ADMIN_PIN = '1234'; // ← change this to your desired PIN
+            const LS_KEY = 'lisset_jobs_v1';
+
+            const DEFAULT_JOBS = [
+                { id: 'j1', title: 'Owner/Operator Driver', location: 'Truro, NS', type: 'Owner-Operator', icon: 'fa-truck-moving', desc: 'Cross-border runs (US & Canada). Competitive mileage pay, fuel cards, and border assistance provided.' },
+                { id: 'j2', title: 'Dispatcher', location: 'Remote / Hybrid', type: 'Full-Time', icon: 'fa-headset', desc: 'Coordinate fleet movements, liaise with drivers and clients. Experience with cross-border logistics preferred.' },
+                { id: 'j3', title: 'Safety & Compliance Officer', location: 'Truro, NS', type: 'Full-Time', icon: 'fa-shield-alt', desc: 'Ensure DOT and Transport Canada compliance across all operations. CVOR & commercial experience required.' },
+                { id: 'j4', title: 'Border Crossing Coordinator', location: 'Truro, NS', type: 'Full-Time', icon: 'fa-passport', desc: 'Manage customs documentation and cross-border logistics. Bilingual (EN/FR) considered an asset.' },
+            ];
+
+            /* ---------- State ---------- */
+            let jobs = loadJobs();
+            let isAdmin = false;
+            let editingId = null;
+
+            /* ---------- DOM refs ---------- */
+            const jobsGrid = document.getElementById('jobs-grid');
+            const tickerScroll = document.getElementById('ticker-scroll');
+            const hiringSection = document.getElementById('hiring');
+
+            const btnAdminLogin = document.getElementById('btn-admin-login');
+            const btnAdminAdd = document.getElementById('btn-admin-add');
+            const btnAdminLogout = document.getElementById('btn-admin-logout');
+
+            // PIN modal
+            const pinModal = document.getElementById('pin-modal');
+            const pinInput = document.getElementById('pin-input');
+            const pinError = document.getElementById('pin-error');
+            const pinSubmit = document.getElementById('pin-submit');
+            const pinCancel = document.getElementById('pin-cancel');
+            document.getElementById('pin-modal-close').addEventListener('click', closePinModal);
+
+            // Job modal
+            const jobModal = document.getElementById('job-modal');
+            const jmTitle = document.getElementById('jm-title');
+            const jmLocation = document.getElementById('jm-location');
+            const jmType = document.getElementById('jm-type');
+            const jmIcon = document.getElementById('jm-icon');
+            const jmDesc = document.getElementById('jm-desc');
+            const jmSave = document.getElementById('jm-save');
+            const jmCancel = document.getElementById('jm-cancel');
+            const jmDelete = document.getElementById('jm-delete');
+            const jmModalTitle = document.getElementById('job-modal-title');
+            document.getElementById('job-modal-close').addEventListener('click', closeJobModal);
+
+            /* ---------- Storage ---------- */
+            function loadJobs() {
+                try {
+                    const raw = localStorage.getItem(LS_KEY);
+                    return raw ? JSON.parse(raw) : [...DEFAULT_JOBS];
+                } catch (e) {
+                    return [...DEFAULT_JOBS];
+                }
+            }
+
+            function saveJobs() {
+                localStorage.setItem(LS_KEY, JSON.stringify(jobs));
+            }
+
+            function genId() {
+                return 'j_' + Date.now().toString(36);
+            }
+
+            /* ---------- Helpers ---------- */
+            function escHtml(str) {
+                return String(str || '')
+                    .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+            }
+
+            /* ---------- Render ---------- */
+            function renderJobs() {
+                jobsGrid.innerHTML = '';
+                if (jobs.length === 0) {
+                    jobsGrid.innerHTML = '<p class="no-jobs"><i class="fas fa-hard-hat" style="font-size:2rem;display:block;margin-bottom:12px"></i>No positions open right now. Check back soon!</p>';
+                    renderTicker();
+                    return;
+                }
+                jobs.forEach(function (job) {
+                    const card = document.createElement('article');
+                    card.className = 'job-card';
+                    card.dataset.id = job.id;
+                    card.innerHTML =
+                        '<div class="job-card-icon"><i class="fas ' + escHtml(job.icon || 'fa-briefcase') + '"></i></div>' +
+                        '<span class="job-card-type">' + escHtml(job.type) + '</span>' +
+                        '<h3>' + escHtml(job.title) + '</h3>' +
+                        '<div class="job-card-location"><i class="fas fa-map-marker-alt"></i>' + escHtml(job.location) + '</div>' +
+                        '<p class="job-desc">' + escHtml(job.desc) + '</p>' +
+                        '<div class="job-card-footer">' +
+                        '<a href="#contact" class="btn-apply">Apply Now</a>' +
+                        '<button class="btn-edit-job" data-id="' + escHtml(job.id) + '"><i class="fas fa-pen"></i> Edit</button>' +
+                        '</div>';
+                    jobsGrid.appendChild(card);
+                });
+
+                jobsGrid.querySelectorAll('.btn-edit-job').forEach(function (btn) {
+                    btn.addEventListener('click', function () { openJobModal(btn.dataset.id); });
+                });
+
+                renderTicker();
+            }
+
+            function renderTicker() {
+                tickerScroll.innerHTML = '';
+                const items = jobs.length > 0 ? jobs : [{ title: 'No open positions right now', type: 'Stay tuned', location: '' }];
+                // Double items for seamless loop
+                items.concat(items).forEach(function (job) {
+                    const span = document.createElement('span');
+                    span.className = 'ticker-item';
+                    span.innerHTML = '<span class="tag">' + escHtml(job.type) + '</span>' +
+                        escHtml(job.title) +
+                        (job.location ? ' &mdash; ' + escHtml(job.location) : '');
+                    tickerScroll.appendChild(span);
+                });
+                const duration = Math.max(18, items.length * 7);
+                tickerScroll.style.animationDuration = duration + 's';
+            }
+
+            /* ---------- Admin ---------- */
+            function setAdminMode(active) {
+                isAdmin = active;
+                if (active) {
+                    hiringSection.classList.add('admin-active');
+                } else {
+                    hiringSection.classList.remove('admin-active');
+                }
+            }
+
+            btnAdminLogin.addEventListener('click', openPinModal);
+            btnAdminLogout.addEventListener('click', function () { setAdminMode(false); });
+            btnAdminAdd.addEventListener('click', function () { openJobModal(null); });
+
+            /* ---------- PIN Modal ---------- */
+            function openPinModal() {
+                pinInput.value = '';
+                pinError.textContent = '';
+                pinModal.classList.add('open');
+                setTimeout(function () { pinInput.focus(); }, 100);
+            }
+
+            function closePinModal() {
+                pinModal.classList.remove('open');
+            }
+
+            function submitPin() {
+                if (pinInput.value === ADMIN_PIN) {
+                    setAdminMode(true);
+                    closePinModal();
+                } else {
+                    pinError.textContent = 'Incorrect PIN. Try again.';
+                    pinInput.value = '';
+                    pinInput.focus();
+                }
+            }
+
+            pinSubmit.addEventListener('click', submitPin);
+            pinCancel.addEventListener('click', closePinModal);
+            pinInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') submitPin(); });
+            pinModal.addEventListener('click', function (e) { if (e.target === pinModal) closePinModal(); });
+
+            /* ---------- Job Modal ---------- */
+            function openJobModal(jobId) {
+                editingId = jobId;
+                if (jobId) {
+                    const job = jobs.find(function (j) { return j.id === jobId; });
+                    if (!job) return;
+                    jmModalTitle.textContent = 'Edit Job Posting';
+                    jmTitle.value = job.title;
+                    jmLocation.value = job.location;
+                    jmType.value = job.type;
+                    jmIcon.value = job.icon || '';
+                    jmDesc.value = job.desc;
+                    jmDelete.style.display = 'inline-block';
+                } else {
+                    jmModalTitle.textContent = 'Add Job Posting';
+                    jmTitle.value = jmLocation.value = jmIcon.value = jmDesc.value = '';
+                    jmType.value = 'Full-Time';
+                    jmDelete.style.display = 'none';
+                }
+                jobModal.classList.add('open');
+                setTimeout(function () { jmTitle.focus(); }, 100);
+            }
+
+            function closeJobModal() {
+                jobModal.classList.remove('open');
+                editingId = null;
+            }
+
+            jmCancel.addEventListener('click', closeJobModal);
+            jobModal.addEventListener('click', function (e) { if (e.target === jobModal) closeJobModal(); });
+
+            jmSave.addEventListener('click', function () {
+                const title = jmTitle.value.trim();
+                if (!title) { jmTitle.focus(); return; }
+                const payload = {
+                    title: title,
+                    location: jmLocation.value.trim() || 'Truro, NS',
+                    type: jmType.value,
+                    icon: jmIcon.value.trim() || 'fa-briefcase',
+                    desc: jmDesc.value.trim()
+                };
+                if (editingId) {
+                    const idx = jobs.findIndex(function (j) { return j.id === editingId; });
+                    if (idx > -1) jobs[idx] = Object.assign({ id: editingId }, payload);
+                } else {
+                    jobs.unshift(Object.assign({ id: genId() }, payload));
+                }
+                saveJobs();
+                renderJobs();
+                closeJobModal();
+            });
+
+            jmDelete.addEventListener('click', function () {
+                if (!editingId) return;
+                if (confirm('Delete this job posting? This cannot be undone.')) {
+                    jobs = jobs.filter(function (j) { return j.id !== editingId; });
+                    saveJobs();
+                    renderJobs();
+                    closeJobModal();
+                }
+            });
+
+            /* ---------- Init ---------- */
+            document.body.classList.add('has-ticker');
+            renderJobs();
+        })();
     </script>
 </body>
 
