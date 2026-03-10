@@ -1808,12 +1808,16 @@ body.has-ticker {
 }
 
 /* ===== ACTIVE NAV LINK ===== */
-.nav-links a.active {
+.nav-links a.active:not(.cta-btn) {
     color: var(--primary-color) !important;
 }
 
-.nav-links a.active::after {
+.nav-links a.active:not(.cta-btn)::after {
     width: 100% !important;
+}
+
+.nav-links .cta-btn.active {
+    color: var(--white) !important;
 }
 
 /* ===== NAVBAR SHRINK ON SCROLL ===== */
