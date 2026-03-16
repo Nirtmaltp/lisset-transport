@@ -1,0 +1,22 @@
+{
+  "name": "lisset-transport",
+  "version": "1.0.0",
+  "description": "Lisset Transport Inc - US & Canada Border Service website",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx serve .",
+    "start": "npx serve .",
+    "lint": "echo 'No linter configured for plain HTML project'"
+  },
+  "keywords": [
+    "transport",
+    "logistics",
+    "trucking"
+  ],
+  "author": "Lisset Transport Inc",
+  "license": "ISC",
+  "devDependencies": {
+    "@vercel/analytics": "^1.1.1"
+  },
+  "dependencies": {}
+}
